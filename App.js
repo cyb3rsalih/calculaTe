@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet, View,Text,TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View,Text,TextInput, Keyboard, TouchableWithoutFeedback, Button,KeyboardAvoidingView } from 'react-native';
  
 export default class App extends Component {
 
-  state = { 
-    n1:null,
-    mean1:null,
-    stdDev1:null,
-    n2:null,
-    mean2:null,
-    stdDev2:null,
-    result:null
-  } 
+    state = {
+        n1:null,
+        n2:null,
+        mean1:null,
+        mean2:null,
+        std1:null,
+        std2:null,
+        result:null,
+        hideResult:false,
+        disabled:true
+    }
+
 
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
@@ -22,91 +25,154 @@ export default class App extends Component {
       'keyboardDidHide',
       this._keyboardDidHide,
     );
+    
+    if(this.state.n1)
+    this.setState({disabled:false})
+
+  }
+  
+ 
+ 
+
+  _keyboardDidShow = () => {
+    this.setState({hideResult:true})
+  }
+
+  _keyboardDidHide = () => {
+    this.setState({hideResult:false})
   }
 
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
+  
+  hesapla(){
+    let n1 = parseFloat(this.state.n1)
+    let n2 = parseFloat(this.state.n2)
 
+    let mean1 = parseFloat(this.state.mean1)
+    let mean2 = parseFloat(this.state.mean2)
 
+    let mean = Math.abs(mean1-mean2)
 
+    let std1 = parseFloat(this.state.std1)
+    let std2 = parseFloat(this.state.std2)
 
-  calculate = () => {
+    let result = mean / (std1**2/n1 + std2**2/n2)**(0.5)
 
-    const { n1,n2,mean1,mean2,stdDev1,stdDev2 } = this.state    
-
-    const abs = Math.abs(mean1 - mean2)
-    const alt1 = Math.pow(stdDev1,2)/n1
-    const alt2 = Math.pow(stdDev2,2)/n2
-    const result = Math.sqrt(abs/(alt1+alt2))
     this.setState({result})
   }
+
  
+
+
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
         <View style={styles.container}>
-          
+          <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'}} >
+
+            { !this.state.hideResult ? ( <Button disabled={ this.state.disabled } onPress={ () => this.hesapla() } title={'Hesapla'} ></Button>) : <View></View>  } 
+            { !this.state.hideResult ? (<Text style={{fontSize:40,padding:10}}>Result: {this.state.result == null ? 'Fill all the gaps' : ''}</Text>) : <View></View>  } 
+
+          </View> 
         
-      <View style={styles.container2}>
+        <KeyboardAvoidingView behavior='padding' style={styles.container2}>
 
-         {/* Variable */}
-         <View style={styles.kutu}>
+          {/* Sample 1 Inputs */}
+          <View style={styles.kutu}>
+
+            <Text>Sample 1</Text>
+
+            <View style={styles.innerContainer}>
+              <TextInput 
+                keyboardType='numeric' 
+                style={styles.textInput} 
+                onFocus={() => this.setState({n1:''})} 
+                onChangeText={ (t) => this.setState({n1:t})  }  
+                placeholder='N1 Value' >
+
+                  {this.state.n1}
+
+              </TextInput>
+            </View>
+
+            <View style={styles.innerContainer}>
+              <TextInput 
+                keyboardType='numeric' 
+                style={styles.textInput} 
+                onFocus={() => this.setState({mean1:''})} 
+                onChangeText={ (t) => this.setState({mean1:t})  }  
+                placeholder='N1 Mean' >
+
+                  {this.state.mean1}
+
+              </TextInput>
+            </View>
+      
+            <View style={styles.innerContainer}>
+              <TextInput 
+                keyboardType='numeric' 
+                style={styles.textInput} 
+                onFocus={() => this.setState({std1:''})} 
+                onChangeText={ (t) => this.setState({std1:t}) }  
+                placeholder='N1 Std' >
+
+                  {this.state.std1}
+
+              </TextInput>
+            </View>
+          </View>
           
-          <View style={styles.innerContainer}>
-            <Text> N Values </Text>
+          {/* Sample 2 Inputs */}
+          <View style={styles.kutu}>
+
+            <Text>Sample 2</Text>
+
+            <View style={styles.innerContainer}>
+              <TextInput 
+                keyboardType='numeric' 
+                style={styles.textInput} 
+                onFocus={() => this.setState({n2:''})} 
+                onChangeText={ (t) => this.setState({n2:t})  }  
+                placeholder='N2 Value' >
+
+                  {this.state.n2}
+
+              </TextInput>
+            </View>
+
+            <View style={styles.innerContainer}>
+              <TextInput 
+                keyboardType='numeric' 
+                style={styles.textInput} 
+                onFocus={() => this.setState({mean2:''})} 
+                onChangeText={ (t) => this.setState({mean2:t})  }  
+                placeholder='N2 Mean' >
+
+                  {this.state.mean2}
+
+              </TextInput>
+            </View>
+            
+      
+            <View style={styles.innerContainer}>
+              <TextInput 
+                keyboardType='numeric' 
+                style={styles.textInput} 
+                onFocus={() => this.setState({std2:''})} 
+                onChangeText={ (t) => this.setState({std2:t}) }  
+                placeholder='N2 Std' >
+
+                  {this.state.std2}
+
+              </TextInput>
+            </View>
           </View>
 
-          <View style={styles.innerContainer}>
-          <Text> Mean Values </Text>
-          </View>
-
-          <View style={styles.innerContainer}>
-          <Text> Standard Deviations </Text>
-          </View>
-    
-        </View>
-
-        {/* Sample 1 Inputs */}
-        <View style={styles.kutu}>
-          <Text>Sample 1</Text>
-          <View style={styles.innerContainer}>
-            <TextInput keyboardType='numeric' onSubmitEditing={Keyboard.dismiss} onChangeText={() => {this.calculate();this.setState({n1:parseFloat(this.state.n1)})}} style={styles.textInput} value={this.state.n1} placeholder='N1 Value' >{this.state.n1}</TextInput>
-          </View>
-
-          <View style={styles.innerContainer}>
-          <TextInput keyboardType='numeric' onSubmitEditing={Keyboard.dismiss} onChangeText={() => {this.calculate();this.setState({mean1:parseFloat(this.state.mean1)})}} style={styles.textInput} value={this.state.mean1} placeholder='N1 Mean' >{this.state.mean1}</TextInput>
-          </View>
-
-          <View style={styles.innerContainer}>
-          <TextInput keyboardType='numeric' onSubmitEditing={Keyboard.dismiss} onChangeText={() => {this.calculate();this.setState({stdDev1:parseFloat(this.state.stdDev1)})}}  style={styles.textInput} value={this.state.stdDev1} placeholder='N1 Std Dev.' >{this.state.stdDev1}</TextInput>
-          </View>
-    
-        </View>
-      {/* Sample 2 Inputs */}
-        <View style={styles.kutu}>
-          <Text>Sample 2</Text>
-          <View style={styles.innerContainer}>
-            <TextInput keyboardType='numeric' onSubmitEditing={Keyboard.dismiss} onChangeText={() => {this.calculate();this.setState({n1:parseFloat(this.state.n2)})}} style={styles.textInput} value={this.state.n2} placeholder='N2 Value' >{this.state.n2}</TextInput>
-          </View>
-
-          <View style={styles.innerContainer}>
-          <TextInput keyboardType='numeric' onSubmitEditing={Keyboard.dismiss} onChangeText={() => {this.calculate();this.setState({mean1:parseFloat(this.state.mean2)})}} style={styles.textInput} value={this.state.mean2} placeholder='N2 Mean' >{this.state.mean2}</TextInput>
-          </View>
-
-          <View style={styles.innerContainer}>
-          <TextInput keyboardType='numeric' onSubmitEditing={Keyboard.dismiss} onChangeText={() => {this.calculate();this.setState({stdDev1:parseFloat(this.state.stdDev2)})}}  style={styles.textInput} value={this.state.stdDev2} placeholder='N2 Std Dev.' >{this.state.stdDev2}</TextInput>
-          </View>
-    
-        </View>
-
-         
-
-        </View>
-        <View style={{flex:1,justifyContent:'center',alignItems:'center'}} >
-          <Text style={{fontSize:40,paddingBottom:100}}>Result : {this.state.result}</Text>
-        </View> 
+        </KeyboardAvoidingView>
+        
         </View>
       </TouchableWithoutFeedback>
     )
@@ -121,7 +187,7 @@ const styles = StyleSheet.create({
     //flexDirection:'row'
   },
   container2: { 
-    flex: 4, 
+    flex: 5, 
     justifyContent:'center',
     alignItems:'center',
     flexDirection:'row'
@@ -142,7 +208,7 @@ const styles = StyleSheet.create({
     borderWidth:1, 
     borderColor:'black',
     width:100,
-    padding:5,
+    padding:10,
     borderRadius:60,
     margin:5
   }
