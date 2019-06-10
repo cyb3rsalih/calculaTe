@@ -75,13 +75,12 @@ export default class App extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
         <View style={styles.container}>
-          <View style={{flex:1,flexDirection:'column',justifyContent:'center',alignItems:'center'}} >
+          <View style={{flex:1,flexDirection:'column',justifyContent:'center',alignItems:'center',marginTop:20}} >
 
             { !this.state.hideResult ? (<Text style={{fontSize:35,padding:10}}>Result: {this.state.disabled == true ? 'Fill all the gaps' : this.state.result }</Text>) : <View></View>  } 
             { !this.state.hideResult ? ( <Button disabled={ this.state.disabled } onPress={ () => this.hesapla() } title={'Calculate'} ></Button>) : <View></View>  } 
 
           </View> 
-          <Text>This app calculates T value of given data</Text>        
         <KeyboardAvoidingView behavior='padding' style={styles.container2}>
 
           {/* Sample 1 Inputs */}
@@ -176,7 +175,7 @@ export default class App extends Component {
           </View>
 
         </KeyboardAvoidingView>
-        
+        <Text style={{marginBottom:20}}>This app calculates T value of given data</Text>        
         </View>
       </TouchableWithoutFeedback>
     )
@@ -216,5 +215,4 @@ const styles = StyleSheet.create({
     borderRadius:60,
     margin:5
   }
-  
 });
