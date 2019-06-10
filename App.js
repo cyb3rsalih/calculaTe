@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet, View,Text,TextInput, Keyboard, TouchableWithoutFeedback, Button,KeyboardAvoidingView } from 'react-native';
+import { 
+  StyleSheet, 
+  View,
+  Text,
+  TextInput,
+  Keyboard, 
+  TouchableWithoutFeedback, 
+  Button,
+  KeyboardAvoidingView, } from 'react-native';
  
 export default class App extends Component {
 
     state = {
-        n1:null,
-        n2:null,
-        mean1:null,
-        mean2:null,
-        std1:null,
-        std2:null,
+        n1:null, n2:null,
+        mean1:null, mean2:null,
+        std1:null, std2:null,
         result:null,
         hideResult:false,
         disabled:true
@@ -20,20 +25,20 @@ export default class App extends Component {
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       this._keyboardDidShow,
-    );
+    )
     this.keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
       this._keyboardDidHide,
-    );
-    
-    if(this.state.n1)
-    this.setState({disabled:false})
-
+    )
   }
   
+  disable(){
+    const {n1,n2,mean1,mean2,std1,std2} = this.state
+     if( n1 !== null && n2 !== null && mean1 !== null && mean2 !== null && std1 !== null && std2 !== null){
+      this.setState({disabled:false})
+    }
+  }
  
- 
-
   _keyboardDidShow = () => {
     this.setState({hideResult:true})
   }
@@ -48,36 +53,35 @@ export default class App extends Component {
   }
   
   hesapla(){
-    let n1 = parseFloat(this.state.n1)
-    let n2 = parseFloat(this.state.n2)
+    const {n1,n2,mean1,mean2,std1,std2} = this.state
 
-    let mean1 = parseFloat(this.state.mean1)
-    let mean2 = parseFloat(this.state.mean2)
+    let n1x = parseFloat(n1.replace(',','.'))
+    let n2x = parseFloat(n2.replace(',','.'))
 
-    let mean = Math.abs(mean1-mean2)
+    let mean1x = parseFloat(mean1.replace(',','.'))
+    let mean2x = parseFloat(mean2.replace(',','.'))
 
-    let std1 = parseFloat(this.state.std1)
-    let std2 = parseFloat(this.state.std2)
+    let meanx = Math.abs(mean1x-mean2x)
 
-    let result = mean / (std1**2/n1 + std2**2/n2)**(0.5)
+    let std1x = parseFloat(std1.replace(',','.'))
+    let std2x = parseFloat(std2.replace(',','.'))
+
+    let result = meanx / (std1x**2/n1x + std2x**2/n2x)**(0.5)
 
     this.setState({result})
   }
-
  
-
-
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
         <View style={styles.container}>
-          <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'}} >
+          <View style={{flex:1,flexDirection:'column',justifyContent:'center',alignItems:'center'}} >
 
-            { !this.state.hideResult ? ( <Button disabled={ this.state.disabled } onPress={ () => this.hesapla() } title={'Hesapla'} ></Button>) : <View></View>  } 
-            { !this.state.hideResult ? (<Text style={{fontSize:40,padding:10}}>Result: {this.state.result == null ? 'Fill all the gaps' : ''}</Text>) : <View></View>  } 
+            { !this.state.hideResult ? (<Text style={{fontSize:35,padding:10}}>Result: {this.state.disabled == true ? 'Fill all the gaps' : this.state.result }</Text>) : <View></View>  } 
+            { !this.state.hideResult ? ( <Button disabled={ this.state.disabled } onPress={ () => this.hesapla() } title={'Calculate'} ></Button>) : <View></View>  } 
 
           </View> 
-        
+          <Text>This app calculates T value of given data</Text>        
         <KeyboardAvoidingView behavior='padding' style={styles.container2}>
 
           {/* Sample 1 Inputs */}
@@ -90,7 +94,7 @@ export default class App extends Component {
                 keyboardType='numeric' 
                 style={styles.textInput} 
                 onFocus={() => this.setState({n1:''})} 
-                onChangeText={ (t) => this.setState({n1:t})  }  
+                onChangeText={ (t) => {this.setState({n1:t}) ; this.disable() }  }  
                 placeholder='N1 Value' >
 
                   {this.state.n1}
@@ -103,7 +107,7 @@ export default class App extends Component {
                 keyboardType='numeric' 
                 style={styles.textInput} 
                 onFocus={() => this.setState({mean1:''})} 
-                onChangeText={ (t) => this.setState({mean1:t})  }  
+                onChangeText={ (t) => {this.setState({mean1:t}) ; this.disable()}  }  
                 placeholder='N1 Mean' >
 
                   {this.state.mean1}
@@ -116,7 +120,7 @@ export default class App extends Component {
                 keyboardType='numeric' 
                 style={styles.textInput} 
                 onFocus={() => this.setState({std1:''})} 
-                onChangeText={ (t) => this.setState({std1:t}) }  
+                onChangeText={ (t) => {this.setState({std1:t}) ; this.disable()} }  
                 placeholder='N1 Std' >
 
                   {this.state.std1}
@@ -135,7 +139,7 @@ export default class App extends Component {
                 keyboardType='numeric' 
                 style={styles.textInput} 
                 onFocus={() => this.setState({n2:''})} 
-                onChangeText={ (t) => this.setState({n2:t})  }  
+                onChangeText={ (t) => {this.setState({n2:t}) ; this.disable() }  }  
                 placeholder='N2 Value' >
 
                   {this.state.n2}
@@ -148,7 +152,7 @@ export default class App extends Component {
                 keyboardType='numeric' 
                 style={styles.textInput} 
                 onFocus={() => this.setState({mean2:''})} 
-                onChangeText={ (t) => this.setState({mean2:t})  }  
+                onChangeText={ (t) => {this.setState({mean2:t}) ; this.disable()}  }  
                 placeholder='N2 Mean' >
 
                   {this.state.mean2}
@@ -162,7 +166,7 @@ export default class App extends Component {
                 keyboardType='numeric' 
                 style={styles.textInput} 
                 onFocus={() => this.setState({std2:''})} 
-                onChangeText={ (t) => this.setState({std2:t}) }  
+                onChangeText={ (t) => {this.setState({std2:t}) ; this.disable() }}  
                 placeholder='N2 Std' >
 
                   {this.state.std2}
