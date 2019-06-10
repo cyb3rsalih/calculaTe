@@ -67,7 +67,7 @@ export default class App extends Component {
     let std2x = parseFloat(std2.replace(',','.'))
 
     let result = meanx / (std1x**2/n1x + std2x**2/n2x)**(0.5)
-
+    result = result.toFixed(3)
     this.setState({result})
   }
  
