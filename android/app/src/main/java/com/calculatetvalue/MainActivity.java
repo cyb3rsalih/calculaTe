@@ -1,4 +1,4 @@
-package com.calculate;
+package com.calculatetvalue;
 
 import com.facebook.react.ReactActivity;
 
