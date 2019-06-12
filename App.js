@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
     borderWidth:1, 
     borderColor:'black',
     width:100,
+    height:40,
     padding:10,
     borderRadius:60,
     margin:5
