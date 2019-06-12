@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView,
   StatusBar } from 'react-native';
 
-  import { Appbar } from 'react-native-paper';
+  import { Appbar, TextInput as PTextInput, Colors } from 'react-native-paper';
 
 export default class App extends Component {
 
@@ -20,7 +20,8 @@ export default class App extends Component {
         std1:null, std2:null,
         result:null,
         hideResult:false,
-        disabled:true
+        disabled:true,
+        text:''
     }
 
 
@@ -180,6 +181,25 @@ export default class App extends Component {
 
               </TextInput>
             </View>
+          </View>
+          <View style={styles.kutu}>
+          <PTextInput
+            label='Email'
+            value={this.state.text}
+            onChangeText={text => this.setState({ text })}
+            mode='outlined'
+            theme={{ roundness: 10, }}
+            style={{marginVertical:5}}
+            />
+
+            <PTextInput
+              mode='outlined'
+              keyboardType='numeric' 
+              onFocus={() => this.setState({std2:''})} 
+              onChangeText={ (t) => {this.setState({std2:t}) ; this.disable() }}  
+              placeholder='N2 Std'           
+              theme={{ roundness: 10, colors:{primary:'#ff0000'} }}
+            />
           </View>
 
         </KeyboardAvoidingView>
