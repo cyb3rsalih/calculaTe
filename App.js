@@ -7,8 +7,11 @@ import {
   Keyboard, 
   TouchableWithoutFeedback, 
   Button,
-  KeyboardAvoidingView, } from 'react-native';
- 
+  KeyboardAvoidingView,
+  StatusBar } from 'react-native';
+
+  import { Appbar } from 'react-native-paper';
+
 export default class App extends Component {
 
     state = {
@@ -70,16 +73,21 @@ export default class App extends Component {
     result = result.toFixed(3)
     this.setState({result})
   }
- 
+
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
+       
         <View style={styles.container}>
-          <View style={{flex:1,flexDirection:'column',justifyContent:'center',alignItems:'center',marginTop:20}} >
+        <StatusBar translucent={false} barStyle={'light-content'} backgroundColor={'#17c0eb'}  />
+        <Appbar style={styles.appbar}>
+        <Appbar.Action color={'#fff'} style={{paddingTop:15}} icon="info-outline" onPress={() => alert('This app calculates T value of given data. Please fill all the gaps to activate Calculate button')} />
+        </Appbar>
+          <View style={{flex:1,flexDirection:'column',justifyContent:'center',alignItems:'center',marginTop:60}} >
 
             { !this.state.hideResult ? (<Text style={{fontSize:35,padding:10}}>Result: {this.state.disabled == true ? 'Fill all the gaps' : this.state.result }</Text>) : <View></View>  } 
             { !this.state.hideResult ? ( <Button disabled={ this.state.disabled } onPress={ () => this.hesapla() } title={'Calculate'} ></Button>) : <View></View>  } 
-
+    
           </View> 
         <KeyboardAvoidingView behavior='padding' style={styles.container2}>
 
@@ -175,7 +183,6 @@ export default class App extends Component {
           </View>
 
         </KeyboardAvoidingView>
-        <Text style={{marginBottom:20}}>This app calculates T value of given data</Text>        
         </View>
       </TouchableWithoutFeedback>
     )
@@ -213,7 +220,15 @@ const styles = StyleSheet.create({
     width:100,
     height:40,
     padding:10,
-    borderRadius:60,
+    borderRadius:10,
     margin:5
-  }
+  },
+  appbar: {
+    backgroundColor:'#17c0eb',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    justifyContent:'flex-end'
+  },
 });
