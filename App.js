@@ -96,112 +96,71 @@ export default class App extends Component {
           <View style={styles.kutu}>
 
             <Text>Sample 1</Text>
-
-            <View style={styles.innerContainer}>
-              <TextInput 
+         
+              <PTextInput
+                label='N1 Value'
+                mode='outlined'
                 keyboardType='numeric' 
-                style={styles.textInput} 
-                onFocus={() => this.setState({n1:''})} 
-                onChangeText={ (t) => {this.setState({n1:t}) ; this.disable() }  }  
-                placeholder='N1 Value' >
-
-                  {this.state.n1}
-
-              </TextInput>
-            </View>
-
-            <View style={styles.innerContainer}>
-              <TextInput 
+                value={this.state.n1}
+                onChangeText={ (t) => {this.setState({n1:t}) ; this.disable() }}  
+                theme={{ roundness: 10, colors:{primary:'#ff0000'} }}
+              />
+         
+              <PTextInput
+                label='N1 Mean'
+                mode='outlined'
                 keyboardType='numeric' 
-                style={styles.textInput} 
-                onFocus={() => this.setState({mean1:''})} 
-                onChangeText={ (t) => {this.setState({mean1:t}) ; this.disable()}  }  
-                placeholder='N1 Mean' >
+                value={this.state.mean1}
+                onChangeText={ (t) => {this.setState({mean1:t}) ; this.disable() }}  
+                theme={{ roundness: 10, colors:{primary:'#ff0000'} }}
+              />
 
-                  {this.state.mean1}
-
-              </TextInput>
-            </View>
+              <PTextInput
+                label='N1 Std'
+                mode='outlined'
+                keyboardType='numeric' 
+                value={this.state.std1}
+                onChangeText={ (t) => {this.setState({std1:t}) ; this.disable() }}  
+                theme={{ roundness: 10, colors:{primary:'#ff0000'} }}
+              />
       
-            <View style={styles.innerContainer}>
-              <TextInput 
-                keyboardType='numeric' 
-                style={styles.textInput} 
-                onFocus={() => this.setState({std1:''})} 
-                onChangeText={ (t) => {this.setState({std1:t}) ; this.disable()} }  
-                placeholder='N1 Std' >
-
-                  {this.state.std1}
-
-              </TextInput>
-            </View>
           </View>
           
           {/* Sample 2 Inputs */}
           <View style={styles.kutu}>
 
             <Text>Sample 2</Text>
-
-            <View style={styles.innerContainer}>
-              <TextInput 
+         
+              <PTextInput
+                label='N2 Value'
+                mode='outlined'
                 keyboardType='numeric' 
-                style={styles.textInput} 
-                onFocus={() => this.setState({n2:''})} 
-                onChangeText={ (t) => {this.setState({n2:t}) ; this.disable() }  }  
-                placeholder='N2 Value' >
-
-                  {this.state.n2}
-
-              </TextInput>
-            </View>
-
-            <View style={styles.innerContainer}>
-              <TextInput 
+                value={this.state.n2}
+                onChangeText={ (t) => {this.setState({n2:t}) ; this.disable() }}  
+                theme={{ roundness: 10, colors:{primary:'#ff0000'} }}
+              />
+         
+              <PTextInput
+                label='N2 Mean'
+                mode='outlined'
                 keyboardType='numeric' 
-                style={styles.textInput} 
-                onFocus={() => this.setState({mean2:''})} 
-                onChangeText={ (t) => {this.setState({mean2:t}) ; this.disable()}  }  
-                placeholder='N2 Mean' >
+                value={this.state.mean2}
+                onChangeText={ (t) => {this.setState({mean2:t}) ; this.disable() }}  
+                theme={{ roundness: 10, colors:{primary:'#ff0000'} }}
+              />
 
-                  {this.state.mean2}
-
-              </TextInput>
-            </View>
-            
-      
-            <View style={styles.innerContainer}>
-              <TextInput 
+              <PTextInput
+                label='N2 Std'
+                mode='outlined'
                 keyboardType='numeric' 
-                style={styles.textInput} 
-                onFocus={() => this.setState({std2:''})} 
+                value={this.state.std2}
                 onChangeText={ (t) => {this.setState({std2:t}) ; this.disable() }}  
-                placeholder='N2 Std' >
-
-                  {this.state.std2}
-
-              </TextInput>
-            </View>
+                theme={{ roundness: 10, colors:{primary:'#ff0000'} }}
+              />
+      
           </View>
-          <View style={styles.kutu}>
-          <PTextInput
-            label='Email'
-            value={this.state.text}
-            onChangeText={text => this.setState({ text })}
-            mode='outlined'
-            theme={{ roundness: 10, }}
-            style={{marginVertical:5}}
-            />
-
-            <PTextInput
-              mode='outlined'
-              keyboardType='numeric' 
-              onFocus={() => this.setState({std2:''})} 
-              onChangeText={ (t) => {this.setState({std2:t}) ; this.disable() }}  
-              placeholder='N2 Std'           
-              theme={{ roundness: 10, colors:{primary:'#ff0000'} }}
-            />
-          </View>
-
+          
+          
         </KeyboardAvoidingView>
         </View>
       </TouchableWithoutFeedback>
@@ -217,7 +176,7 @@ const styles = StyleSheet.create({
     //flexDirection:'row'
   },
   container2: { 
-    flex: 5, 
+    flex: 2, 
     justifyContent:'center',
     alignItems:'center',
     flexDirection:'row'
@@ -242,6 +201,9 @@ const styles = StyleSheet.create({
     padding:10,
     borderRadius:10,
     margin:5
+  },
+  ptextInput: {
+    width:100,
   },
   appbar: {
     backgroundColor:'#17c0eb',
