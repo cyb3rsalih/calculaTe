@@ -55,7 +55,7 @@ export default class App extends Component {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
-  
+
   hesapla(){
     const {n1,n2,mean1,mean2,std1,std2} = this.state
 
