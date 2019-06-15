@@ -134,7 +134,7 @@ export default class App extends Component {
               <View />
             )}
           </View>
-          <KeyboardAvoidingView behavior="padding" style={styles.container2}>
+          <KeyboardAvoidingView behavior="height" style={styles.container2}>
             {/* Sample 1 Inputs */}
             <View style={styles.kutu}>
               <Text>Sample 1</Text>
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     //flexDirection:'row'
   },
   container2: {
-    flex: 2,
+    flex: 3,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row"
