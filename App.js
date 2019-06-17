@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Text,
-  TextInput,
   Keyboard,
   TouchableWithoutFeedback,
   Button,
@@ -13,17 +12,20 @@ import {
 
 import { Appbar, TextInput as PTextInput, Colors } from "react-native-paper";
 
+var jStat = require("jStat").jStat;
+
 export default class App extends Component {
   state = {
-    n1: null,
-    n2: null,
-    mean1: null,
-    mean2: null,
-    std1: null,
-    std2: null,
-    result: null,
+    n1: "1,2",
+    n2: "2,2",
+    mean1: "3,12",
+    mean2: "1,8",
+    std1: "0,21",
+    std2: "0,23",
+    result: "5,353",
+    tdist: "0,00850",
     hideResult: false,
-    disabled: true,
+    disabled: false,
     text: ""
   };
 
@@ -81,7 +83,11 @@ export default class App extends Component {
 
     let result = meanx / (std1x ** 2 / n1x + std2x ** 2 / n2x) ** 0.5;
     result = result.toFixed(3);
-    this.setState({ result });
+    let tdist = jStat.studentt.pdf(result, n1x + n2x - 2);
+    tdist = tdist.toFixed(5);
+    this.setState({ result, tdist }, () => {
+      typeof result !== "number" ? this.setState({ disabled: true }) : null;
+    });
   }
 
   render() {
@@ -116,10 +122,10 @@ export default class App extends Component {
           >
             {!this.state.hideResult ? (
               <Text style={{ fontSize: 35, padding: 10 }}>
-                Result:{" "}
+                {" "}
                 {this.state.disabled == true
                   ? "Fill all the gaps"
-                  : this.state.result}
+                  : "T: " + this.state.result + " | P: " + this.state.tdist}
               </Text>
             ) : (
               <View />
